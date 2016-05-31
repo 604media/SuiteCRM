@@ -215,7 +215,6 @@ global $currentModule;
     $ss = new Sugar_Smarty();
     $ss->assign("MOD", $mod_strings);
     $ss->assign("APP", $app_strings);
-    unset($_SESSION['campaignWizard'][isset($campaign_id) ? $campaign_id : null]['defaultSelectedTemplateId']);
     $ss->display(file_exists('custom/modules/Campaigns/tpls/WizardHomeStart.tpl') ? 'custom/modules/Campaigns/tpls/WizardHomeStart.tpl' : 'modules/Campaigns/tpls/WizardHomeStart.tpl');
        
 }

@@ -119,7 +119,7 @@ HTML;
         return $html;
     }
 
-    public function getElementHTML($contents = '', $textareaId = null, $elementId = 'mozaik', $width = 'initial', $thumbs = array(), $tinyMCESetup = 'tinyMCE: {}') {
+    public function getElementHTML($contents = '', $textareaId = null, $elementId = 'mozaik', $width = 'initial', $thumbs = array()) {
         if(is_numeric($width)) {
             $width .= 'px';
         }
@@ -158,9 +158,7 @@ HTML;
             style: 'tpls/default/styles/default.css',
             namespace: false,
             ace: false,
-            width: '{$width}',
-            {$tinyMCESetup}
-
+            width: '{$width}'
         };
 
         window.plgBackground.image = '{$this->mozaikPath}/' + window.plgBackground.image;
@@ -181,14 +179,14 @@ HTML;
         return $html;
     }
 
-    public function getAllHTML($contents = '', $textareaId = null, $elementId = 'mozaik', $width = 'initial', $group = '', $tinyMCESetup = 'tinyMCE: {}') {
+    public function getAllHTML($contents = '', $textareaId = null, $elementId = 'mozaik', $width = 'initial', $group = '') {
         if(is_numeric($width)) {
             $width .= 'px';
         }
         $mozaikHTML = $this->getDependenciesHTML();
         $mozaikHTML .= $this->getIncludeHTML();
         $thumbs = $this->getThumbs($group);
-        $mozaikHTML .= $this->getElementHTML($contents, $textareaId, $elementId, $width, $thumbs, $tinyMCESetup);
+        $mozaikHTML .= $this->getElementHTML($contents, $textareaId, $elementId, $width, $thumbs);
         return $mozaikHTML;
     }
 
