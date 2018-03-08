@@ -88,7 +88,6 @@ $default_time_start = $timedate->nowDbTime();
 $time_ampm = $timedate->AMPMMenu($prefix, $timedate->nowDbTime());
 			// Unimplemented until jscalendar language files are fixed
 			// $cal_lang =(empty($cal_codes[$current_language])) ? $cal_codes[$default_language] : $cal_codes[$current_language];
-$jsCalendarImage = SugarThemeRegistry::current()->getImageURL('jscalendar.gif');
 			$form = <<<EOF
 					<input type="hidden" name="${prefix}record" value="">
 					<input type="hidden" name="${prefix}status" value="${default_status}">
@@ -99,7 +98,7 @@ $jsCalendarImage = SugarThemeRegistry::current()->getImageURL('jscalendar.gif');
 					<p>$lbl_subject<span class="required">$lbl_required_symbol</span><br>
 					<input name='${prefix}name' size='25' maxlength='255' type="text"><br>
 					$lbl_date&nbsp;<span class="required">$lbl_required_symbol</span>&nbsp;<span class="dateFormat">$ntc_date_format</span><br>
-					<input name='${prefix}date_start' id='jscal_field' onblur="parseDate(this, '$cal_dateformat');" type="text" maxlength="10" value="${default_date_start}"> <!--not_in_theme!--><img src="{$jscalendarImage}" alt="{$app_strings['LBL_ENTER_DATE']}"  id="jscal_trigger" align="absmiddle"><br>
+					<input name='${prefix}date_start' id='jscal_field' onblur="parseDate(this, '$cal_dateformat');" type="text" maxlength="10" value="${default_date_start}"> <!--not_in_theme!--><span class="suitepicon suitepicon-module-calendar"></span><br>
 					$lbl_time&nbsp;<span class="required">$lbl_required_symbol</span>&nbsp;<span class="dateFormat">$ntc_time_format</span><br>
 					<input name='${prefix}time_start' type="text" maxlength='5' value="${default_time_start}">{$time_ampm}</p>
 					<script type="text/javascript">
@@ -342,14 +341,9 @@ function handleSave($prefix,$redirect=true, $useRequired=false) {
 	    	}
 
 	    	if(count($deleteContacts) > 0) {
-	    		$sql = '';
-	    		foreach($deleteContacts as $u) {
-	    		        $sql .= ",'" . $u . "'";
-	    		}
-	    		$sql = substr($sql, 1);
-	    		// We could run a delete SQL statement here, but will just mark as deleted instead
-	    		$sql = "UPDATE meetings_contacts set deleted = 1 where contact_id in ($sql) AND meeting_id = '". $focus->id . "'";
-	    		$focus->db->query($sql);
+				foreach($deleteContacts as $u) {
+					$focus->contacts->delete($focus->id, $u);
+				}
 	    	}
 	        if(!empty($_POST['lead_invitees'])) {
 	    	   $leadInvitees = explode(',', trim($_POST['lead_invitees'], ','));
@@ -371,14 +365,9 @@ function handleSave($prefix,$redirect=true, $useRequired=false) {
 	    	}
 
 	    	if(count($deleteLeads) > 0) {
-	    		$sql = '';
 	    		foreach($deleteLeads as $u) {
-	    		        $sql .= ",'" . $u . "'";
+					$focus->leads->delete($focus->id, $u);
 	    		}
-	    		$sql = substr($sql, 1);
-	    		// We could run a delete SQL statement here, but will just mark as deleted instead
-	    		$sql = "UPDATE meetings_leads set deleted = 1 where lead_id in ($sql) AND meeting_id = '". $focus->id . "'";
-	    		$focus->db->query($sql);
 	    	}
 	    	////	END REMOVE
 	    	///////////////////////////////////////////////////////////////////////////
@@ -509,4 +498,4 @@ function handleSave($prefix,$redirect=true, $useRequired=false) {
 } // end handleSave();
 
 } // end Class def
-?>
+

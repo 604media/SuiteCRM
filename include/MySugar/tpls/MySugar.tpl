@@ -42,6 +42,7 @@
 
 
 *}
+
 {literal}
     <style>
         .menu {
@@ -91,7 +92,7 @@
                         <a id="pageNum_{$tabNum}_anchor" style='cursor: pointer;' {if !$lock_homepage}ondblclick="renameTab({$tabNum})"{/if} onClick=retrievePage({$tabNum});>
                             <span id="name_{$tabNum}">{$tab.pageTitle}</span>
                         </a>
-                        {if !$lock_homepage}<a id="removeTab_anchor"  onClick=removeDashboardForm({$tabNum});><img src="themes/default/images/id-ff-clear.png"></a>{/if}
+                        {if !$lock_homepage}<a id="removeTab_anchor"  onClick="removeDashboardForm({$tabNum});"><span class="suitepicon suitepicon-action-clear"></span></a>{/if}
 
                         </li>{/if}
                 {/foreach}
@@ -159,21 +160,16 @@
                     <div id="pageNum_{$divPageNum}_div" style="display:none;">
                     </div>
                 {/foreach}
-
-
-
-                <div id="dashletsDialog" style="display:none;">
-                    <div class="hd" id="dashletsDialogHeader"><a href="javascript:void(0)"
-                                                                 onClick="javascript:SUGAR.mySugar.closeDashletsDialog();">
-                            <div class="container-close">&nbsp;</div>
-                        </a>{$lblAdd}
-                    </div>
-                    <div class="bd" id="dashletsList">
-                        <form></form>
-                    </div>
-
+            </div>
+            <div id="dashletsDialog" style="display:none;">
+                <div class="hd" id="dashletsDialogHeader"><a href="javascript:void(0)"
+                                                             onClick="javascript:SUGAR.mySugar.closeDashletsDialog();">
+                        <div class="container-close">&nbsp;</div>
+                    </a>{$lblAdd}
                 </div>
-
+                <div class="bd" id="dashletsList">
+                    <form></form>
+                </div>
 
             </div>
             <script type="text/javascript" src="include/MySugar/javascript/AddRemoveDashboardPages.js"></script>
@@ -248,5 +244,8 @@
                     requires: []
                 });
                 mySugarLoader.insert();
+                $(function(){
+                    if (SUGAR.ajaxUI && SUGAR.ajaxUI.hist_loaded == false) { retrievePage(0)};
+                });
                 {/literal}
             </script>

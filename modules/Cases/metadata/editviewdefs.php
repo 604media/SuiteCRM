@@ -136,7 +136,6 @@ array (
           0 => 
           array (
             'name' => 'description',
-            'nl2br' => true,
           ),
         ),
         5 =>
@@ -179,4 +178,3 @@ array (
     ),
   ),
 );
-?>

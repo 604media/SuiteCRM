@@ -68,7 +68,8 @@ $viewdefs['Users']['EditView'] = array(
                       'customCode'=>'{if $IS_ADMIN}{$USER_TYPE_DROPDOWN}{else}{$USER_TYPE_READONLY}{/if}',
                       ),
                 ),
-            array('picture'),
+            array('photo'),
+            array(array('name' => 'factor_auth', 'label' => 'LBL_FACTOR_AUTH'),)
         ),
         'LBL_EMPLOYEE_INFORMATION' => array(
             array(array(

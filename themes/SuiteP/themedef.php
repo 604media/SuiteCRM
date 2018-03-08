@@ -5,7 +5,7 @@
  * SugarCRM, Inc. Copyright (C) 2004-2013 SugarCRM Inc.
  *
  * SuiteCRM is an extension to SugarCRM Community Edition developed by SalesAgility Ltd.
- * Copyright (C) 2011 - 2016 SalesAgility Ltd.
+ * Copyright (C) 2011 - 2018 SalesAgility Ltd.
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Affero General Public License version 3 as published by the
@@ -42,11 +42,13 @@ if (!defined('sugarEntry') || !sugarEntry) {
     die('Not A Valid Entry Point');
 }
 
+global $app_strings;
+
 $themedef = array(
     'name' => 'Suite P',
     'description' => 'SuiteCRM Responsive Theme',
     'version' => array(
-        'regex_matches' => array('6\.*.*'),
+        'regex_matches' => array('.+'),
     ),
     'group_tabs' => true,
     'classic' => true,
@@ -58,119 +60,23 @@ $themedef = array(
             'type' => 'bool',
             'default' => true,
         ),
-
-        'navbar' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_BASE',
-            'type' => 'colour',
-            'default' => '#3C8DBC',
+        'sub_themes' => array(
+            'vname' => 'LBL_SUBTHEME_OPTIONS',
+            'type' => 'select',
+            'default' => 'Dawn',
         ),
-        'navbar_hover' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_MENUHOVER',
-            'type' => 'colour',
-            'default' => '#597dbc',
-        ),
-        'navbar_font' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_MENUFONT',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-        'navbar_link_hover' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_MENULNKHVR',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-        'dropdown_menu' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_DDMENU',
-            'type' => 'colour',
-            'default' => '#f7f7f7',
-        ),
-        'dropdown_menu_link' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_DDLINK',
-            'type' => 'colour',
-            'default' => '#3C8DBC',
-        ),
-
-        'dropdown_menu_link_hover' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_DDLINK_HOVER',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-
-        'action_menu_button' => array(
-            'vname' => 'LBL_ACTION_MENU_BUTTON',
-            'type' => 'colour',
-            'default' => '#eeeeee',
-        ),
-
-        'action_menu_background' => array(
-            'vname' => 'LBL_ACTION_MENU_BACKGROUND',
-            'type' => 'colour',
-            'default' => '#F7F7F7',
-        ),
-
-        'action_menu_background_hover' => array(
-            'vname' => 'LBL_ACTION_MENU_BACKGROUND_HOVER',
-            'type' => 'colour',
-            'default' => '#3C8DBC',
-        ),
-
-        'button' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_BTNTOP',
-            'type' => 'colour',
-            'default' => '#3C8DBC',
-        ),
-        'button_hover' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_BTNHOVER',
-            'type' => 'colour',
-            'default' => '#597dbc',
-        ),
-        'button_link' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_BTNLNK',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-        'button_link_hover' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_BTNLNKHOVER',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-
-        'page_header' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_PAGEHEADER',
-            'type' => 'colour',
-            'default' => '#333333',
-        ),
-        'page_link' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_PAGELINK',
-            'type' => 'colour',
-            'default' => '#3C8DBC',
-        ),
-
-        'dashlet' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_DASHHEAD',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-        'dashlet_headertext' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_DASHHEADTEXT',
-            'type' => 'colour',
-            'default' => '#3C8DBC',
-        ),
-        'icon' => array(
-            'vname' => 'LBL_COLOUR_ADMIN_ICON',
-            'type' => 'colour',
-            'default' => '#ffffff',
-        ),
-        'suggestion_popup_from' => array(
-            'vname' => 'LBL_SUGGESTION_POPUP_FROM',
-            'type' => 'colour',
-            'default' => '#3c8dbc',
-        ),
-        'suggestion_popup_to' => array(
-            'vname' => 'LBL_SUGGESTION_POPUP_TO',
-            'type' => 'colour',
-            'default' => '#4286AD',
-        ),
-
     ),
 );
+
+if(!empty($app_strings['LBL_SUBTHEMES'])) {
+    // if statement removes the php notice
+    $themedef['config_options']['sub_themes']['options'] = array(
+        $app_strings['LBL_SUBTHEMES'] => array(
+            'Dawn'  => $app_strings['LBL_SUBTHEME_OPTIONS_DAWN'],
+            'Day'   => $app_strings['LBL_SUBTHEME_OPTIONS_DAY'],
+            'Dusk'  => $app_strings['LBL_SUBTHEME_OPTIONS_DUSK'],
+            'Night' => $app_strings['LBL_SUBTHEME_OPTIONS_NIGHT'],
+        ),
+    );
+    $themedef['config_options']['sub_themes']['default'] = 'Dawn';
+}

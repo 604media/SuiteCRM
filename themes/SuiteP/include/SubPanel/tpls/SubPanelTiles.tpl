@@ -2,23 +2,34 @@
 
 <script type="text/javascript" src="{sugar_getjspath file='include/SubPanel/SubPanelTiles.js'}"></script>
 
-
 <ul class="noBullet" id="subpanel_list">
 {foreach from=$subpanel_tabs key=i item=subpanel_tab}
-    <li class="noBullet" id="whole_subpanel_{$subpanel_tab}">
+    <li class="noBullet useFooTable" id="whole_subpanel_{$subpanel_tab}">
+        {$subpanel_tabs_properties.$i.collapse_subpanels}
         <div class="panel panel-default sub-panel">
             <div class="panel-heading panel-heading-collapse">
-                <a id="subpanel_title_{$subpanel_tab}" class="collapsed" role="button" data-toggle="collapse" href="#subpanel_{$subpanel_tab}" aria-expanded="false">
+
+            {if $subpanel_tabs_properties.$i.expanded_subpanels == true}
+                <a id="subpanel_title_{$subpanel_tab}" class="in" role="button" data-toggle="collapse" href="#subpanel_{$subpanel_tab}" aria-expanded="false">
+            {else}
+                    <a id="subpanel_title_{$subpanel_tab}" class="collapsed" role="button" data-toggle="collapse"
+                       href="#subpanel_{$subpanel_tab}" aria-expanded="false" onclick="showSubPanel('{$subpanel_tab}')">
+            {/if}
                     <div class="col-xs-10 col-sm-11 col-md-11">
                         <div>
-                           <img src="{sugar_getimagepath directory='sub_panel' file_name=$subpanel_tabs_properties.$i.module_name file_extension='svg'}">
+                            <span class="suitepicon suitepicon-module-{$subpanel_tabs_properties.$i.module_name|lower|replace:'_':'-'} subpanel-icon"></span>
                             {$subpanel_tabs_properties.$i.title}
                         </div>
                     </div>
                 </a>
 
             </div>
-            <div class="panel-body panel-collapse collapse" id="subpanel_{$subpanel_tab}">
+
+            {if $subpanel_tabs_properties.$i.expanded_subpanels == true}
+                <div class="panel-body panel-collapse collapse in" id="subpanel_{$subpanel_tab}">
+            {else}
+                <div class="panel-body panel-collapse collapse" id="subpanel_{$subpanel_tab}">
+            {/if}
                     <div class="tab-content">
                         <div id="list_subpanel_{$subpanel_tab}">
                             {$subpanel_tabs_properties.$i.subpanel_body}
@@ -35,6 +46,13 @@
         {literal}
         var SubpanelInit = function() {
             SubpanelInitTabNames({/literal}{$tab_names}{literal});
+          {/literal}$('.sub-panel .table-responsive').footable();{literal}
+          // collapse subpanels when device is mobile / tablet
+          if($(window).width() <= SUGAR.measurements.breakpoints.large) {
+            $('.panel-collapse').removeClass('in');
+            $('.panel-heading-collapse a').removeClass('in');
+            $('.panel-heading-collapse a').addClass('collapsed');
+          }
         }
         var SubpanelInitTabNames = function(tabNames) {
             subpanel_dd = new Array();
@@ -59,6 +77,13 @@
 {/if}
 <script>
     var ModuleSubPanels = {$module_sub_panels};
+    {literal}
+    setTimeout(function() {
+        if(typeof SUGAR.subpanelUtils.currentSubpanelGroup !== "undefined") {
+            SUGAR.subpanelUtils.loadSubpanelGroup(SUGAR.subpanelUtils.currentSubpanelGroup);
+        }
+    }, 500);
+    {/literal}
 </script>
 
 
